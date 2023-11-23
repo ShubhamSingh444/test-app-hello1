@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: test-app-hello
+  namespace: default
+
+spec:
+  selector:
+    matchLabels:
+      app: test-app-hello
+  endpoints:
+  - port: http
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: test-app-hello
+spec:
+  type: LoadBalancer
+  selector:
+    app: test-app-hello
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000  
